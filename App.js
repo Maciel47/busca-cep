@@ -1,10 +1,9 @@
 import * as React from 'react';
-//import { StatusBar } from 'expo-status-bar';
-import ScreenRoutesTabs from './src/routes/ScreensRoutesTabs';
+import TabNavigation from './src/components/TabNavigation';
 
 export default function App() {
   return (
-    <ScreenRoutesTabs/>
+      <TabNavigation/>
   );
 }
 
