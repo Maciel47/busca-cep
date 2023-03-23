@@ -1,10 +1,14 @@
 import * as React from 'react';
 import { 
   View, 
-  Text, 
+  Text,
+  StatusBar,
   StyleSheet,
   TextInput,
-  TouchableOpacity 
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  FlatList, 
+  Platform
  } from 'react-native';
 
 
@@ -30,8 +34,13 @@ export default class Results extends React.Component {
   render () {
     return (
       <View style={styles.container}>
-        <Text style={ styles.text }>Buscar CEP</Text>
-        <TextInput
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'android' ? 'height' : 'position'}>
+        <View style={styles.logoSpace}>
+          <View style={styles.sections}>
+            <Text style={ styles.text }>Buscar CEP</Text>
+          </View>
+          <TextInput
             style={styles.input}
             placeholder="Digite o CEP aqui"
             inputMode={'numeric'}
@@ -39,17 +48,25 @@ export default class Results extends React.Component {
             onChangeText={(cep) => this.setState({cep: cep})}
             value={this.state.cep}
             maxLength={8}
-            />
-            
-        <TouchableOpacity 
-          style={styles.buttonLayout}
-          onPress={()=> this.searchCep()}>
-          <View>
+          />    
+          <TouchableOpacity 
+            style={styles.buttonLayout}
+            onPress={()=> this.searchCep()}>
             <Text style={ styles.textButton }>BUSCAR</Text>
+          </TouchableOpacity>
+          <View style={styles.sections}>
+            <Text style={ styles.text }>Resultado: </Text>
           </View>
-        </TouchableOpacity>
-        <Text style={ styles.text }>Resultado: </Text>
-      </View>    
+          <View style={styles.sectionList}>
+            <FlatList
+              data={this.state.cep}
+              renderItem={({item}) => <item title={item.title} />}
+              keyExtractor={item => item.id}
+            />
+          </View>
+        </View>
+        </KeyboardAvoidingView>
+      </View>
     );
   }
 }
@@ -59,9 +76,24 @@ export default class Results extends React.Component {
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
+      marginTop: StatusBar.currentHeight || 0,
+    },
+    logoSpace: {
+      flex: 1,
+      marginTop: '50%'
+    },
+    sections: {
+      flex: 0.1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    sectionList: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     text: {
-      fontSize: 20
+      fontSize: 20,
     },
     buttonLayout: {
       alignItems: 'center',
@@ -77,7 +109,7 @@ export default class Results extends React.Component {
     },
     input: {
       backgroundColor: '#FFF',
-      width: '90%',
+      width: 300,
       height: '5%',
       padding: 3,
       marginTop: 15,
