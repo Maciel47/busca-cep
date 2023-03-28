@@ -7,39 +7,43 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
-  FlatList, 
-  Platform
+  Platform,
+  FlatList
  } from 'react-native';
 
 
-export default class Results extends React.Component {
+class Results extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       cep: '',
-      item:[],
+      item:{
+        logradouro: '',
+        complemento: '',
+        bairro: '',
+        localidade: '',
+        uf: '',
+        ibge: '',
+        ddd: ''
+      }
     }
   }
 
   searchCep() {
-    fetch(`https://viacep.com.br/ws/${this.state.cep}/json/`)
-    .then(async (response) => {
-      let data = await response.json();
-      console.warn(data);
-      }) 
-    .catch((error) => {
-      return console.error(error);
+    fetch(`https://viacep.com.br/ws/${this.state.cep}/json/`)    
+    .then(response => response.json())
+    .then(data => {
+      this.setState({
+        item: data
+      })
     })
+    .catch(error => {
+      return console.error(error);
+    });
   }
   render () {
     return (
-      <View style={styles.container}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'android' ? 'height' : 'position'}>
-        <View style={styles.logoSpace}>
-          <View style={styles.sections}>
-            <Text style={ styles.text }>Buscar CEP</Text>
-          </View>
+      <View>
           <TextInput
             style={styles.input}
             placeholder="Digite o CEP aqui"
@@ -51,24 +55,60 @@ export default class Results extends React.Component {
           />    
           <TouchableOpacity 
             style={styles.buttonLayout}
-            onPress={()=> this.searchCep()}>
+            onPress={() => this.searchCep()}>
             <Text style={ styles.textButton }>BUSCAR</Text>
           </TouchableOpacity>
-          <View style={styles.sections}>
+          {
+            this.state.item.localidade ? 
+            <View style={styles.itemList}>
             <Text style={ styles.text }>Resultado: </Text>
+              <Text style={styles.itemList}>
+                Rua: {this.state.item.logradouro}
+              </Text> 
+              <Text style={styles.itemList}>
+                Complemento: {this.state.item.complemento}
+              </Text>
+              <Text style={styles.itemList}>
+                Bairro: {this.state.item.bairro}
+              </Text>
+              <Text style={styles.itemList}>
+                Cidade: {this.state.item.localidade}
+              </Text>
+              <Text style={styles.itemList}>
+                Estado: {this.state.item.uf}
+              </Text>
+              <Text style={styles.itemList}>
+                Código do munícipio (IBGE): {this.state.item.ibge}
+              </Text>
+              <Text style={styles.itemList}>
+                DDD: {this.state.item.ddd}
+              </Text>
+          </View>: null
+          }
+        </View>
+    );
+    
+  }
+}
+
+
+
+export default function Search () {
+  return (
+    <View style={styles.container}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'android' ? 'height' : 'position'}>
+        <View style={styles.logoSpace}>
+          <View style={styles.sections}>
+            <Text style={ styles.text }>Buscar CEP</Text>
           </View>
-          <View style={styles.sectionList}>
-            <FlatList
-              data={this.state.cep}
-              renderItem={({item}) => <item title={item.title} />}
-              keyExtractor={item => item.id}
-            />
+          <Results/>
+          <View style={styles.sections}>
           </View>
         </View>
         </KeyboardAvoidingView>
       </View>
-    );
-  }
+  )
 }
 
   const styles = StyleSheet.create({
@@ -110,12 +150,21 @@ export default class Results extends React.Component {
     input: {
       backgroundColor: '#FFF',
       width: 300,
-      height: '5%',
+      height: '18%',
       padding: 3,
       marginTop: 15,
       marginBottom: 15,
       fontSize: 25,
       borderRadius: 10,
       borderBottomWidth: 0.5,
+    },
+    itemList: {
+      color: 'white',
+      fontSize: 25,
+      alignItems: 'center',
+      alignContent: 'center',
+      marginTop: 5,
+      marginBottom: 5,
+      backgroundColor: "#999FEC"
     }
   });
