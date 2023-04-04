@@ -11,6 +11,8 @@ import {
   ActivityIndicator
  } from 'react-native';
 
+
+ 
 export default class Results extends React.Component {
   state = {
     loading: false,
@@ -25,6 +27,23 @@ export default class Results extends React.Component {
       ddd: ''
     }
   }
+
+  clear() {
+    this.setState({
+      loading: false,
+      cep: '',
+      item: {
+        logradouro: '',
+        complemento: '',
+        bairro: '',
+        localidade: '',
+        uf: '',
+        ibge: '',
+        ddd: ''
+      }
+    })
+  }
+
   searchCep() {
     this.setState ({
       loading: true,
@@ -58,26 +77,27 @@ export default class Results extends React.Component {
     return (
       <View style={styles.container}>
         <Text style={ styles.text }>Buscar CEP</Text>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'android' ? 'height' : 'position'}>
-          <TextInput
-            style={styles.input}
-            placeholder="Digite o CEP aqui"
-            inputMode={'numeric'}
-            keyboardType='numeric'
-            onChangeText={(cep) => this.setState({cep: cep})}
-            value={this.state.cep}
-            cursorColor={'#999FEC'}
-            maxLength={8}
-          />
-          <TouchableOpacity 
-            style={styles.buttonLayout}
-            onPress={() => this.searchCep()}>
-            <Text style={ styles.textButton }>BUSCAR</Text>
-          </TouchableOpacity>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'android' ? 'height' : 'position'}>
+            <TextInput
+              style={styles.input}
+              placeholder="Digite o CEP aqui"
+              inputMode={'numeric'}
+              keyboardType='numeric'
+              onChangeText={(cep) => this.setState({cep: cep})}
+              value={this.state.cep}
+              cursorColor={'#999FEC'}
+              maxLength={8}
+            />
+            <TouchableOpacity 
+              style={styles.buttonLayout}
+              onPress={() => this.searchCep(this.state.cep ? this.searchCep() : this.clear())}>
+              <Text style={ styles.textButton }>BUSCAR</Text>
+            </TouchableOpacity>
           </KeyboardAvoidingView> 
           {
             this.state.item.localidade ? 
+            
             <View style={styles.container}>
               <Text style={ styles.text }>Resultado: </Text>
               <View style={styles.itemList}>
@@ -106,8 +126,22 @@ export default class Results extends React.Component {
                   DDD: {this.state.item.ddd}
                 </Text>
               </View>
+                <View style={styles.buttonForm}>
+                  <TouchableOpacity 
+                    style={styles.buttonLayout}
+                    onPress={() => this.clear()}>
+                    <Text style={ styles.textButton }>LIMPAR</Text>
+                  </TouchableOpacity>
+                
+                  <TouchableOpacity 
+                    style={styles.buttonLayout}
+                    onPress={null}>
+                    <Text style={ styles.textButton }>SALVAR</Text>
+                  </TouchableOpacity>
+                </View>
           </View> : (this.state.loading ? <ActivityIndicator size='large'/> : null)
           }
+          
         </View>
     );
     
@@ -138,7 +172,8 @@ const styles = StyleSheet.create({
   buttonLayout: {
     alignItems: 'center',
     alignContent: 'center',
-    backgroundColor: "#999FEC"
+    backgroundColor: "#999FEC",
+    borderRadius: 10
   },
   textButton: {
     fontSize: 20,
@@ -152,18 +187,22 @@ const styles = StyleSheet.create({
     padding: 50,
     marginTop: 5,
     marginBottom: 5,
-    backgroundColor: "#999FEC",
+    color: '#000',
+    backgroundColor: "#EEEDFF",
+    borderWidth: 1,
+    borderRadius: 30,
+    borderColor: "#999FEC",
     width: '98%'
-  },
-  titleList: {
-    fontSize: 28,
-    color: '#FFF',
-    alignItems: 'center',
-    backgroundColor: '#E59BE4'
   },
   textList: {
     fontSize: 25,
-    color: '#FFF',
     alignItems: 'center'
+  },
+  buttonForm: {
+    width: 300,
+    marginBottom: 10,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    borderRadius: 60
   }
 });
