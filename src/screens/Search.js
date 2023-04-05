@@ -11,8 +11,6 @@ import {
   ActivityIndicator
  } from 'react-native';
 
-
- 
 export default class Results extends React.Component {
   state = {
     loading: false,
@@ -26,22 +24,6 @@ export default class Results extends React.Component {
       ibge: '',
       ddd: ''
     }
-  }
-
-  clear() {
-    this.setState({
-      loading: false,
-      cep: '',
-      item: {
-        logradouro: '',
-        complemento: '',
-        bairro: '',
-        localidade: '',
-        uf: '',
-        ibge: '',
-        ddd: ''
-      }
-    })
   }
 
   searchCep() {
@@ -73,6 +55,23 @@ export default class Results extends React.Component {
       return console.error(error);
     });
   }
+
+  clearCEP() {
+    this.setState({
+      loading: false,
+      cep: '',
+      item: {
+        logradouro: '',
+        complemento: '',
+        bairro: '',
+        localidade: '',
+        uf: '',
+        ibge: '',
+        ddd: ''
+      }
+    })
+  }
+
   render () {
     return (
       <View style={styles.container}>
@@ -91,7 +90,7 @@ export default class Results extends React.Component {
             />
             <TouchableOpacity 
               style={styles.buttonLayout}
-              onPress={() => this.searchCep(this.state.cep ? this.searchCep() : this.clear())}>
+              onPress={() => this.searchCep()}>
               <Text style={ styles.textButton }>BUSCAR</Text>
             </TouchableOpacity>
           </KeyboardAvoidingView> 
@@ -102,7 +101,10 @@ export default class Results extends React.Component {
               <Text style={ styles.text }>Resultado: </Text>
               <View style={styles.itemList}>
                 <Text style={styles.textList}>
-                  Rua: {this.state.item.logradouro}
+                  Rua: {this.state.item.logradouro ? this.state.item.localidade : 
+                  <Text style={styles.itemList}>
+                    Não consta
+                  </Text>}
                 </Text>
                 <Text style={styles.textList}>
                   Complemento: {this.state.item.complemento ? this.state.item.complemento : 
@@ -111,7 +113,10 @@ export default class Results extends React.Component {
                   </Text>}
                 </Text>
                 <Text style={styles.textList}>
-                  Bairro: {this.state.item.bairro}
+                  Bairro: {this.state.item.bairro ? this.state.item.bairro : 
+                  <Text style={styles.itemList}>
+                    Não consta
+                  </Text>}
                 </Text>
                 <Text style={styles.textList}>
                   Cidade: {this.state.item.localidade}
@@ -129,17 +134,16 @@ export default class Results extends React.Component {
                 <View style={styles.buttonForm}>
                   <TouchableOpacity 
                     style={styles.buttonLayout}
-                    onPress={() => this.clear()}>
+                    onPress={() => this.clearCEP()}>
                     <Text style={ styles.textButton }>LIMPAR</Text>
                   </TouchableOpacity>
-                
                   <TouchableOpacity 
                     style={styles.buttonLayout}
-                    onPress={null}>
+                    onPress={() => this.saveCEP()}>
                     <Text style={ styles.textButton }>SALVAR</Text>
                   </TouchableOpacity>
                 </View>
-          </View> : (this.state.loading ? <ActivityIndicator size='large'/> : null)
+          </View> : (this.state.loading ? <ActivityIndicator size='large' color='#999FEC'/> : null)
           }
           
         </View>
