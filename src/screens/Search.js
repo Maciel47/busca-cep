@@ -10,8 +10,7 @@ import {
   Platform,
   ActivityIndicator
  } from 'react-native';
-
-export default class Results extends React.Component {
+export default class Search extends React.Component {
   state = {
     loading: false,
     cep: '',
@@ -29,7 +28,7 @@ export default class Results extends React.Component {
   searchCep() {
     this.setState ({
       loading: true,
-      item: {
+      item: {  
         logradouro: '',
         complemento: '',
         bairro: '',
@@ -46,6 +45,7 @@ export default class Results extends React.Component {
         loading: false,
         item: data
       })
+      console.log(this.state.item)
     })
     .catch(error => {
       this.setState({
@@ -72,6 +72,10 @@ export default class Results extends React.Component {
     })
   }
 
+  saveCep() {
+    this.state.item;
+  }
+
   render () {
     return (
       <View style={styles.container}>
@@ -94,6 +98,7 @@ export default class Results extends React.Component {
               <Text style={ styles.textButton }>BUSCAR</Text>
             </TouchableOpacity>
           </KeyboardAvoidingView> 
+
           {
             this.state.item.localidade ? 
             
@@ -101,7 +106,7 @@ export default class Results extends React.Component {
               <Text style={ styles.text }>Resultado: </Text>
               <View style={styles.itemList}>
                 <Text style={styles.textList}>
-                  Rua: {this.state.item.logradouro ? this.state.item.localidade : 
+                  Rua: {this.state.item.logradouro ? this.state.item.logradouro : 
                   <Text style={styles.itemList}>
                     Não consta
                   </Text>}
@@ -143,12 +148,13 @@ export default class Results extends React.Component {
                     <Text style={ styles.textButton }>SALVAR</Text>
                   </TouchableOpacity>
                 </View>
-          </View> : (this.state.loading ? <ActivityIndicator size='large' color='#999FEC'/> : null)
+                {/* {this.state.item.localidade ? null : <Text>O CEP buscado não consta na base de dados ou é inexistente. Por favor, verifique o CEP digitado e tente</Text>} */}
+          </View> :
+          (this.state.loading ? <ActivityIndicator size='large' color='#999FEC'/> : null) 
           }
           
         </View>
     );
-    
   }
 }
 
