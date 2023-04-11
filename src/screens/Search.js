@@ -10,6 +10,7 @@ import {
   Platform,
   ActivityIndicator
  } from 'react-native';
+
 export default class Search extends React.Component {
   state = {
     loading: false,
@@ -72,8 +73,8 @@ export default class Search extends React.Component {
     })
   }
 
-  saveCep() {
-    this.state.item;
+  saveCEP() {
+    
   }
 
   render () {
@@ -148,7 +149,6 @@ export default class Search extends React.Component {
                     <Text style={ styles.textButton }>SALVAR</Text>
                   </TouchableOpacity>
                 </View>
-                {/* {this.state.item.localidade ? null : <Text>O CEP buscado não consta na base de dados ou é inexistente. Por favor, verifique o CEP digitado e tente</Text>} */}
           </View> :
           (this.state.loading ? <ActivityIndicator size='large' color='#999FEC'/> : null) 
           }
