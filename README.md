@@ -6,8 +6,9 @@
 Este simples projeto visa buscar informações de uma API (a selecionada foi a ViaCEP) e mostrar para o usuário. O intuíto desde app é para fins de estudos. Ele ainda está em desenvolvimento, portanto, serão implementadas novas funcionalidades, como é possível notar. Sendo assim, como estou iniciando na área (de forma pessoal), caso tenha alguma dúvida a respeito do que foi feito, ou sugestões de melhora, entre em contato comigo por aqui, ou via [LinkedIn](https://www.linkedin.com/in/mmacielar/).
 ## 📝 Instruções
 
-O projeto é simples de ser utilizado, basta inserir um CEP válido no campo disponível, e clicar em buscar. Para buscar um novo CEP, basta clicar em limpar e digitar um novo CEP. Segue o vídeo do funcionamento:
-![watch](/assets/BuscaCEP%20.mp4)
+O projeto é simples de ser utilizado, basta inserir um CEP válido no campo disponível, e clicar em buscar. Para buscar um novo CEP, basta clicar em limpar e digitar um novo CEP ou apagar o CEP que foi digitado e digitar um novo. 
+Segue o vídeo do funcionamento:
+
 
 ### 🔧 Funcionalidades
 
@@ -15,6 +16,12 @@ O projeto é simples de ser utilizado, basta inserir um CEP válido no campo dis
 - [x] Mostrar resultado
 - [ ] Salvar CEP
 - [ ] Listar CEP's buscados
+
+Ao tentar salvar, ocorre erro pois ainda não foi desenvolvido. 
+A tela de listagem ainda não possui nenhuma informação. 
+Problemas que precisam de correções:
+* Ao tentar buscar um CEP em branco, inválido ou que não consta na base, fica carregando e não retorna nenhuma mensagem; 
+
 
 ## 🛠 Tecnologias
 
