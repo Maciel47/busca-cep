@@ -1,26 +1,32 @@
 # 🚀 BuscaCEP
-![Badge in progress](https://img.shields.io/badge/status-in%20progress-brightgreen)
+![Badge Status](https://img.shields.io/badge/Status-In%20Progress-green) | 
+![Badge Plataform](https://img.shields.io/badge/-Android-green)
 
 🚧 Em construção... 🚧
 
-Este simples projeto visa buscar informações de uma API (a selecionada foi a ViaCEP) e mostrar para o usuário. O intuíto desde app é para fins de estudos. Ele ainda está em desenvolvimento, portanto, serão implementadas novas funcionalidades, como é possível notar. Sendo assim, como estou iniciando na área (de forma pessoal), caso tenha alguma dúvida a respeito do que foi feito, ou sugestões de melhora, entre em contato comigo por aqui, ou via [LinkedIn](https://www.linkedin.com/in/mmacielar/).
+Este simples projeto foi desenvolvido afim de buscar conhecimento e praticar. Utilizando Webservice ([ViaCEP](https://viacep.com.br/)), buscando a informação e retornando para o usuário. O intuito deste app é para fins de estudos. Ele ainda está em desenvolvimento, portanto, serão implementadas novas funcionalidades, como é possível notar posteriormente. Sendo assim, como um iniciante, caso tenha alguma dúvida a respeito do que foi feito, ou sugestões para melhorar, entre em contato comigo por aqui, ou via [LinkedIn](https://www.linkedin.com/in/mmacielar/).
+
 ## 📝 Instruções
 
 O projeto é simples de ser utilizado, basta inserir um CEP válido no campo disponível, e clicar em buscar. Para buscar um novo CEP, basta clicar em limpar e digitar um novo CEP ou apagar o CEP que foi digitado e digitar um novo. 
 Segue o vídeo do funcionamento:
-![BuscaCEP](https://user-images.githubusercontent.com/66790565/231463434-59564860-765e-4874-8fe7-492fb75ef5a1.gif)
+
+
+https://user-images.githubusercontent.com/66790565/231463629-543be955-c3df-43e0-bfd4-cd55b2561a61.mp4
+
+
 
 
 ### 🔧 Funcionalidades
 
 - [x] Buscar CEP
-- [x] Mostrar resultado
+- [x] Mostrar o resultado
 - [ ] Salvar CEP
 - [ ] Listar CEP's buscados
 
 Ao tentar salvar, ocorre erro pois ainda não foi desenvolvido. 
 A tela de listagem ainda não possui nenhuma informação. 
-Problemas que precisam de correções:
+Problemas existentes que serão corrigidos:
 * Ao tentar buscar um CEP em branco, inválido ou que não consta na base, fica carregando e não retorna nenhuma mensagem; 
 
 
