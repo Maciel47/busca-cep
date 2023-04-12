@@ -8,6 +8,7 @@ Este simples projeto visa buscar informações de uma API (a selecionada foi a V
 
 O projeto é simples de ser utilizado, basta inserir um CEP válido no campo disponível, e clicar em buscar. Para buscar um novo CEP, basta clicar em limpar e digitar um novo CEP ou apagar o CEP que foi digitado e digitar um novo. 
 Segue o vídeo do funcionamento:
+![BuscaCEP](https://user-images.githubusercontent.com/66790565/231463434-59564860-765e-4874-8fe7-492fb75ef5a1.gif)
 
 
 ### 🔧 Funcionalidades
