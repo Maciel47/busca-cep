@@ -32,7 +32,7 @@ export default function TabNavigation() {
         name="Listar" 
         component={List}
         options={{
-          tabBarLabel: 'Realizar consultas',
+          tabBarLabel: 'Buscas salvas',
           tabBarIcon: ({ color }) => (
             <Ionicons name="list" color={color} size={22}/>
           )

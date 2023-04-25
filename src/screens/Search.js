@@ -10,6 +10,7 @@ import {
   Platform,
   ActivityIndicator
  } from 'react-native';
+ import { getDatabase, ref, set } from "firebase/database";
 
 export default class Search extends React.Component {
   state = {
@@ -74,7 +75,17 @@ export default class Search extends React.Component {
   }
 
   saveCEP() {
-    
+    const db = getDatabase();
+    set(ref(db, 'address/' + this.state.cep), {
+      cep: this.state.cep,
+      logradouro: this.state.item.logradouro,
+      complemento: this.state.item.complemento,
+      bairro: this.state.item.bairro,
+      localidade: this.state.item.localidade, 
+      uf: this.state.item.uf,
+      ibge: this.state.item.ibge,
+      ddd: this.state.item.ddd
+    })
   }
 
   render () {
@@ -149,7 +160,7 @@ export default class Search extends React.Component {
                     <Text style={ styles.textButton }>SALVAR</Text>
                   </TouchableOpacity>
                 </View>
-          </View> :
+          </View> : 
           (this.state.loading ? <ActivityIndicator size='large' color='#999FEC'/> : null) 
           }
           
@@ -178,6 +189,13 @@ const styles = StyleSheet.create({
     fontSize: 25,
     borderRadius: 10,
     borderBottomWidth: 0.5,
+  },
+  buttonForm: {
+    width: 300,
+    marginBottom: 10,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    borderRadius: 60
   },
   buttonLayout: {
     alignItems: 'center',
@@ -208,11 +226,4 @@ const styles = StyleSheet.create({
     fontSize: 25,
     alignItems: 'center'
   },
-  buttonForm: {
-    width: 300,
-    marginBottom: 10,
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    borderRadius: 60
-  }
 });
