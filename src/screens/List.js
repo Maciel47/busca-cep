@@ -1,135 +1,149 @@
 import * as React from 'react';
-import { SafeAreaView, StatusBar, TouchableOpacity, Text, StyleSheet, FlatList } from 'react-native';
-// import conn from '../database/conn';
-import { getDatabase, ref, onValue } from 'firebase/database';
+import {
+  View, 
+  SafeAreaView,
+  StatusBar, 
+  TouchableOpacity, 
+  Text, 
+  StyleSheet, 
+  FlatList,
+  ScrollView,
+  RefreshControl
+  } from 'react-native';
+import { getDatabase, ref, onValue, get } from 'firebase/database';
+import { ActivityIndicator } from 'react-native-paper';
 
-const db = getDatabase();
-const infoAddress = ref(db, 'address/');
-  onValue(infoAddress, (snapshot) => {
-    const data = snapshot.val();
-    
-    // updateAddress(postElement, data);
-  })
+const List = () => {
+  const  [address, setAddress] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
 
-  const Item = ({item, onPress, backgroundColor, textColor}) => (
-    <TouchableOpacity onPress={onPress} style={[styles.item, {backgroundColor}]}>
-      <Text style={[styles.title, {color: textColor}]}>{item.title}</Text>
-    </TouchableOpacity>
+  function refresh() {
+    setLoading(true);
+    <ActivityIndicator/>
+    setLoading(false);
+  }
+
+  const getAddress = () => {
+    const db = getDatabase();
+    const dbRef = ref(db, 'address/');
+    onValue(dbRef, (snapshot) => {
+      const data = [];
+      snapshot.forEach((childItem) => {
+        data.push ({
+          key: childItem.key,
+          cep: childItem.val().cep,
+          logradouro: childItem.val().logradouro,
+          complemento: childItem.val().complemento,
+          bairro: childItem.val().bairro,
+          localidade: childItem.val().localidade,
+          uf: childItem.val().uf, 
+          ibge: childItem.val().ibge,
+          ddd: childItem.val().ddd,
+        });
+      });
+        setAddress(oldData => [...oldData, ...data]);
+        setLoading(false);
+    });
+  }
+
+  React.useEffect (() => {
+    getAddress();
+    setLoading(true);
+  }, []);
+
+  const renderItem = ({item}) => (
+      <View style={styles.itemList}>
+        <TouchableOpacity onPress={ null }>
+          <Text style={styles.textList}>CEP: {item.cep}</Text>
+          <Text style={styles.textList}>Rua: 
+            {
+              item.logradouro ?  item.logradouro : 
+              <Text style={styles.textList}> Não consta </Text>
+            }
+          </Text>
+          <Text style={styles.textList}>Complemento: 
+            {
+              item.complemento ?  item.complemento : 
+              <Text style={styles.textList}> Não consta </Text>
+            }
+          </Text>
+          <Text style={styles.textList}>Bairro: {item.bairro}</Text>
+          <Text style={styles.textList}>Cidade: {item.localidade}</Text>
+          <Text style={styles.textList}>Estado: {item.uf}</Text>
+          <Text style={styles.textList}>IBGE: {item.ibge}</Text>
+          <Text style={styles.textList}>DDD: {item.ddd}</Text>
+        </TouchableOpacity>
+      </View>
   );
-  
-  const App = () => {
-    const [selectedId, setSelectedId] = React.useState();
-  
-    const renderItem = ({item}) => {
-      const backgroundColor = item.id === selectedId ? '#6e3b6e' : '#f9c2ff';
-      const color = item.id === selectedId ? 'white' : 'black';
-  
-      return (
-        <Item
-          item={item}
-          onPress={() => setSelectedId(item.id)}
-          backgroundColor={backgroundColor}
-          textColor={color}
-        />
-      );
-    };
-    return (
-      <SafeAreaView style={styles.container}>
-        <FlatList
-          data={null}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-          extraData={selectedId}
-        />
-      </SafeAreaView>
-    );
-  };
-  
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      marginTop: StatusBar.currentHeight || 0,
-    },
-    item: {
-      padding: 20,
-      marginVertical: 8,
-      marginHorizontal: 16,
-    },
-    title: {
-      fontSize: 32,
-    },
-  });
-  
-  export default App;
 
-// export default function List () {
-//     return (
-//       <View style={styles.container}>
-//         <Text style={ styles.text }>CEP's buscados</Text>
-//       </View>
-//     );
-//   }
+  return (
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={address}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.key}
+        refreshControl = {
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={refresh}
+          />
+        }
+      />
+    </SafeAreaView>
+  )
+}
 
-//   const styles = StyleSheet.create({
-//     container: {
-//       flex: 1,
-//       alignItems: 'center',
-//       justifyContent: 'center',
-//     },
-//     text: {
-//       fontSize: 20
-//     }
-//   });
+const styles = StyleSheet.create ({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: StatusBar.currentHeight || 0,
+  },
+  text: {
+    fontSize: 25,
+  },
+  item: {
+    backgroundColor: '#f9c2ff',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  itemList: {
+    flex: 1,
+    justifyContent: 'space-between',
+    padding: 50,
+    marginTop: 5,
+    marginBottom: 5,
+    color: '#000',
+    backgroundColor: "#EEEDFF",
+    borderWidth: 1,
+    borderRadius: 30,
+    borderColor: "#999FEC",
+    width: '98%'
+  },
+  textList: {
+    fontSize: 25,
+    alignItems: 'center'
+  },
+  buttonForm: {
+    width: 300,
+    marginBottom: 10,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    borderRadius: 60
+  },
+  buttonLayout: {
+    alignItems: 'center',
+    alignContent: 'center',
+    backgroundColor: "#999FEC",
+    borderRadius: 10
+  },
+  textButton: {
+    fontSize: 20,
+    padding: 15,
+    color: "#FFF"
+  },
+})
 
-  // export default class List extends React.Component {
-    //   constructor(props) {
-    //     super(props);
-    //     this.state={
-    //       list:[],
-    //     }
-    //   }
-    //   componentDidMount(){
-    //     app.database().ref().on('value', (snapshot) => {
-    //       var li = []
-    //       snapshot.forEach((child) => {
-    //         li.push({
-    //           key: child.key,
-    //           bairro: child.val().bairro,
-    //           cep: child.val().cep,
-    //           complemento: child.val().complemento,
-    //           ddd: child.val().ddd,
-    //           ibge: child.val().ibge,
-    //           localidade: child.val().localidade,
-    //           logradouro: child.val().logradouro,
-    //           uf: child.val().uf,
-    //         })
-    //       })
-    //       this.setState({list:li})
-    //     })
-    //   }
-    //   render() {
-    //     return (
-    //       <View style={{flex:1, alignSelf:'center', justifyContent:'center'}}>
-    //        <FlatList style={{width:'100%'}}
-    //           data={this.state.list}
-    //           keyExtractor={(item)=>item.key}
-    //           renderItem={({item})=>{
-    //              return(
-    //                 <View>
-    //                   <Text>
-    //                     {item.bairro}  
-    //                     {item.cep}
-    //                     {item.complemento}
-    //                     {item.ddd}
-    //                     {item.ibge}
-    //                     {item.localidade}
-    //                     {item.logradouro}
-    //                     {item.uf}
-    //                   </Text>
-    //                 </View>)
-    //              }}/>
-    //      </View>
-    //     )
-    //   }
-    // }
-    
+export default List;

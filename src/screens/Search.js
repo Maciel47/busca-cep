@@ -190,6 +190,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderBottomWidth: 0.5,
   },
+  buttonForm: {
+    width: 300,
+    marginBottom: 10,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    borderRadius: 60
+  },
   buttonLayout: {
     alignItems: 'center',
     alignContent: 'center',
@@ -219,11 +226,4 @@ const styles = StyleSheet.create({
     fontSize: 25,
     alignItems: 'center'
   },
-  buttonForm: {
-    width: 300,
-    marginBottom: 10,
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    borderRadius: 60
-  }
 });

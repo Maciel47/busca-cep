@@ -22,12 +22,14 @@ https://user-images.githubusercontent.com/66790565/231463629-543be955-c3df-43e0-
 - [x] Buscar CEP
 - [x] Mostrar o resultado
 - [x] Salvar CEP
-- [ ] Listar CEP's buscados
- 
-A tela de listagem ainda não possui nenhuma informação. 
+- [x] Listar CEP's buscados
+- [ ] Deletar CEP's salvos
+  
 Problemas existentes que serão corrigidos:
 * Ao tentar buscar um CEP em branco, inválido ou que não consta na base, fica carregando e não retorna nenhuma mensagem. O mesmo acontece para CEP inexistente ou que não constam na base de dados do ViaCep; 
-* Ao tentar salvar o mesmo cep, ele não retorna nenhuma mensagem, apesar de não salvar. 
+* Ao tentar salvar o mesmo cep, não retorna nenhuma mensagem, apesar de não salvar. 
+* Ao salvar um CEP, não retorna mensagem nenhum, apesar de salvar. 
+* Ao salvar, os valores da listagem são duplicados (os existentes) somando ao novo valor salvo.
 
 
 ## 🛠 Tecnologias
